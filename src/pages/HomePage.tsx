@@ -7,8 +7,7 @@ import {
   Users, 
   Clock, 
   Shield, 
-  CheckCircle, 
-  Star,
+  CheckCircle,
   ArrowRight,
   Wrench,
   Truck
@@ -32,6 +31,52 @@ const HomePage: React.FC = () => {
       description: 'Quick diagnosis and repair. Most issues fixed within 30-60 minutes on the spot.'
     }
   ];
+
+  const brands = [
+    {
+      name: 'Apple',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg'
+    },
+    {
+      name: 'Samsung',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg'
+    },
+    {
+      name: 'Xiaomi',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Xiaomi_logo.svg'
+    },
+    {
+      name: 'OnePlus',
+      logo: 'https://logos-world.net/wp-content/uploads/2023/03/OnePlus-Logo.png'
+    },
+    {
+      name: 'Oppo',
+      logo: 'https://pluspng.com/img-png/oppo-logo-png-img-oppo-logo-in-svg-vector-or-png-file-format-logo-wine-3000x2000.png'
+    },
+    {
+      name: 'Vivo',
+      logo: 'https://logos-world.net/wp-content/uploads/2023/03/Vivo-Logo.jpg'
+    },
+    {
+      name: 'Realme',
+      logo: 'https://c.realme.com/in/img/logo.a7643831.png'
+    },
+    {
+      name: 'Google',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg'
+    },
+    {
+      name: 'Motorola',
+      logo: 'https://www.pngmart.com/files/22/Motorola-Logo-PNG-Isolated-HD.png'
+    },
+    {
+      name: 'Huawei',
+      logo: 'https://logos-world.net/wp-content/uploads/2020/04/Huawei-Logo.png'
+    }
+  ];
+  
+  
+  
 
   const services = [
     'Screen Replacement',
@@ -122,6 +167,30 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Brands Section */}
+<section className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+      Supported Brands
+    </h2>
+
+    <div className="grid md:grid-cols-3 gap-6">
+      {brands.map((brand, index) => (
+        <div key={index} className="border p-6 rounded-xl flex flex-col items-center shadow hover:shadow-lg transition">
+          <img src={brand.logo} alt={brand.name} className="h-16 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">{brand.name}</h3>
+          {/* <ul className="text-gray-600 text-sm text-center space-y-1">
+            {brand.models.map((m, idx) => (
+              <li key={idx}>{m}</li>
+            ))}
+          </ul> */}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Services Section */}
       <section className="py-16 bg-white">

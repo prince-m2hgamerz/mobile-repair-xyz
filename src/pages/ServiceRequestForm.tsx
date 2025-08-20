@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle, Phone, User, MapPin, Clock, AlertCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Phone, User, MapPin, Clock, AlertCircle, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../pages/SupabaseClients'; // ✅ Add this import
-import { Calendar } from 'lucide-react';
+import { supabase } from '../pages/SupabaseClients';
+
+// Props coming from BookingWizard
+interface ServiceRequestFormProps {
+  preFilled?: {
+    brand: string;
+    model: string;
+    issue: string;
+  };
+}
 
 // Types
 interface FormData {
@@ -25,16 +33,15 @@ interface FormErrors {
   repairDate?: string;
 }
 
-const ServiceRequestForm: React.FC = () => {
+const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) => {
   const [formData, setFormData] = useState<FormData>({
     customerName: '',
     mobileNumber: '',
     phoneModel: '',
     issueDescription: '',
     address: '',
-    repairDate: '',   // ✅ New field
-    preferredTimeSlot: ''
-    
+    preferredTimeSlot: '',
+    repairDate: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -42,7 +49,6 @@ const ServiceRequestForm: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [user, setUser] = useState<any>(null);
 
-  // Fetch current user (only if user is logged in using Supabase auth)
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -52,10 +58,14 @@ const ServiceRequestForm: React.FC = () => {
   }, []);
 
   const timeSlots = [
-    '9:00 AM - 11:00 AM', '11:00 AM - 1:00 PM',
-    '1:00 PM - 3:00 PM', '3:00 PM - 5:00 PM',
-    '5:00 PM - 7:00 PM', '7:00 PM - 9:00 PM'
+    '9:00 AM - 11:00 AM',
+    '11:00 AM - 1:00 PM',
+    '1:00 PM - 3:00 PM',
+    '3:00 PM - 5:00 PM',
+    '5:00 PM - 7:00 PM',
+    '7:00 PM - 9:00 PM'
   ];
+  
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -65,16 +75,12 @@ const ServiceRequestForm: React.FC = () => {
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile number is required';
     if (!formData.preferredTimeSlot) newErrors.preferredTimeSlot = 'Preferred time slot is required';
-    if (!formData.repairDate) {
-      newErrors.repairDate = 'Please select a date';
-    }    
+    if (!formData.repairDate) newErrors.repairDate = 'Please select a date';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -82,42 +88,32 @@ const ServiceRequestForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     setIsSubmitting(true);
+
     try {
-
-      // const { data, error } = await supabase
-      //   .from('repair_requests')
-      //   .insert({
-      //     user_id: user?.id || null,         // user_id if logged in
-      //     mobileNumber: formData.mobileNumber,
-      //     customerName: formData.customerName,
-      //     model: formData.phoneModel,       // your DB column may be 'model'
-      //     issueDescription: formData.issueDescription,
-      //     address: formData.address,
-      //     preferredTimeSlot: formData.preferredTimeSlot
-      //   });
-
-      const { data, error } = await supabase
-  .from('repair_requests')
-  .insert({
-    user_id: user?.id || null,
-    customername: formData.customerName,
-    mobilenumber: formData.mobileNumber,
-    model: formData.phoneModel,
-    issueDescription: formData.issueDescription,     // after column created
-    preferredTimeSlot: formData.preferredTimeSlot,   // after column created
-    address: formData.address
-  });
+      const { error } = await supabase
+        .from('repair_requests')
+        .insert({
+          user_id: user?.id || null,
+          customername: formData.customerName,
+          mobilenumber: formData.mobileNumber,
+          model: formData.phoneModel,
+          issueDescription: formData.issueDescription,
+          address: formData.address,
+          preferredTimeSlot: formData.preferredTimeSlot,
+          repairDate: formData.repairDate,
+          // Wizard data
+          deviceBrand: preFilled?.brand,
+          deviceModel: preFilled?.model,
+          deviceIssue: preFilled?.issue
+        });
 
       if (error) {
         console.error('Supabase insert error:', error);
         alert('Submission failed');
-        setIsSubmitting(false);
         return;
       }
 
-      console.log('Inserted:', data);
       setIsSubmitted(true);
     } catch (err) {
       console.error('Unexpected error:', err);
