@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx';
+import { supabase } from '../pages/SupabaseClients';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {

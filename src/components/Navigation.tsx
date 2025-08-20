@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx';
+import { supabase } from '../pages/SupabaseClients';
 import { Menu, X, Smartphone, Wrench } from 'lucide-react';
 
 const Navigation: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx';
+import { supabase } from '../pages/SupabaseClients';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const session = supabase.auth.getSession(); // or use hook

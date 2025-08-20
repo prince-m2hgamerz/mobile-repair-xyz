@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft, CheckCircle, Phone, User, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx'; // ✅ Add this import
+import { supabase } from '../pages/SupabaseClients'; // ✅ Add this import
 import { Calendar } from 'lucide-react';
 
 // Types
