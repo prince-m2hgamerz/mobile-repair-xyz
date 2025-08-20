@@ -58,7 +58,7 @@ const AboutUs: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              About FixMobile
+              About MobileRepairXYZ
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
               Your trusted partner for professional mobile repair services. 
@@ -83,7 +83,7 @@ const AboutUs: React.FC = () => {
               </h2>
               <div className="space-y-6 text-lg text-gray-600">
                 <p>
-                  Founded in 2020, FixMobile started with a simple mission: to make mobile phone repairs 
+                  Founded in 2025, MobileRepairXYZ started with a simple mission: to make mobile phone repairs 
                   convenient, reliable, and accessible to everyone. We recognized the frustration of long 
                   queues, uncertain wait times, and the inconvenience of visiting repair shops.
                 </p>
@@ -222,7 +222,7 @@ const AboutUs: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-            Why Choose FixMobile?
+            Why Choose MobileRepairXYZ?
           </h2>
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="p-6">
@@ -248,7 +248,7 @@ const AboutUs: React.FC = () => {
             </div>
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Join thousands of satisfied customers who trust FixMobile for their mobile repair needs. 
+            Join thousands of satisfied customers who trust MobileRepairXYZ for their mobile repair needs. 
             Experience the convenience of professional doorstep service with the assurance of quality and reliability.
           </p>
         </div>

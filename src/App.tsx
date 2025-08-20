@@ -6,20 +6,59 @@ import HomePage from './pages/HomePage';
 import ServiceRequestForm from './pages/ServiceRequestForm';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        {/* Show Navigation only for logged in routes */}
         <Navigation />
+
         <main>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/request" element={<ServiceRequestForm />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/contact" element={<Contact />} />
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/request"
+              element={
+                <ProtectedRoute>
+                  <ServiceRequestForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <ProtectedRoute>
+                  <AboutUs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <ProtectedRoute>
+                  <Contact />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
+
         <Footer />
       </div>
     </Router>

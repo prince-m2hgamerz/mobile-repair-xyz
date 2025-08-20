@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, CheckCircle, Phone, User, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx'; // ✅ Add this import
+import { Calendar } from 'lucide-react';
 
 // Types
 interface FormData {
@@ -11,6 +12,7 @@ interface FormData {
   issueDescription: string;
   address: string;
   preferredTimeSlot: string;
+  repairDate: string;
 }
 
 interface FormErrors {
@@ -20,6 +22,7 @@ interface FormErrors {
   issueDescription?: string;
   address?: string;
   preferredTimeSlot?: string;
+  repairDate?: string;
 }
 
 const ServiceRequestForm: React.FC = () => {
@@ -29,7 +32,9 @@ const ServiceRequestForm: React.FC = () => {
     phoneModel: '',
     issueDescription: '',
     address: '',
+    repairDate: '',   // ✅ New field
     preferredTimeSlot: ''
+    
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -60,6 +65,9 @@ const ServiceRequestForm: React.FC = () => {
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile number is required';
     if (!formData.preferredTimeSlot) newErrors.preferredTimeSlot = 'Preferred time slot is required';
+    if (!formData.repairDate) {
+      newErrors.repairDate = 'Please select a date';
+    }    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -318,6 +326,33 @@ const ServiceRequestForm: React.FC = () => {
                 </p>
               )}
             </div>
+
+
+            {/* Repair Date */}
+<div>
+  <label htmlFor="repairDate" className="flex items-center text-sm font-medium text-gray-700 mb-2">
+    <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+    Repair Date *
+  </label>
+  <input
+    type="date"
+    id="repairDate"
+    name="repairDate"
+    value={formData.repairDate}
+    onChange={handleInputChange}
+    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ${
+      errors.repairDate ? 'border-red-300 bg-red-50' : 'border-gray-300'
+    }`}
+  />
+  {errors.repairDate && (
+    <p className="mt-1 text-sm text-red-600 flex items-center">
+      <AlertCircle className="h-4 w-4 mr-1" />
+      {errors.repairDate}
+    </p>
+  )}
+</div>
+
+
 
             {/* Preferred Time Slot */}
             <div>

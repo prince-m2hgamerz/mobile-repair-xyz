@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
   Smartphone, 
   Home, 
@@ -60,10 +61,16 @@ const HomePage: React.FC = () => {
                 <Smartphone className="h-16 w-16 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Fast Mobile Repair
-              <span className="block text-blue-200">At Your Doorstep</span>
-            </h1>
+            <motion.h1
+  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  transition={{ duration: 0.8, ease: 'easeOut' }}
+  className="text-4xl md:text-6xl font-bold mb-4 text-center leading-tight"
+>
+  Fast Mobile Repair
+  <span className="block text-blue-200">At Your Doorstep</span>
+</motion.h1>
+
             <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
               Professional technicians come to you. No queues, no waiting. 
               Get your phone fixed in 30-60 minutes with 90-day warranty.
@@ -92,7 +99,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose FixMobile?
+              Why Choose Us?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Experience the convenience of professional mobile repair services delivered right to your location
@@ -215,7 +222,7 @@ const HomePage: React.FC = () => {
               href="tel:+1234567890"
               className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200"
             >
-              Call Now: +1 (234) 567-8900
+              Call Now: +91 9818322072
             </a>
           </div>
         </div>

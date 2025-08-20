@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx';
 import { Menu, X, Smartphone, Wrench } from 'lucide-react';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const location = useLocation();
+
+  // Get User session
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data?.user);
+    };
+    getUser();
+  }, []);
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -13,8 +24,13 @@ const Navigation: React.FC = () => {
     { name: 'Contact', href: '/contact' },
   ];
 
-  const isActive = (path: string) => {
-    return location.pathname === path;
+  const isActive = (path: string) => location.pathname === path;
+
+  // handle logout
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = '/login';
   };
 
   return (
@@ -27,56 +43,76 @@ const Navigation: React.FC = () => {
               <Smartphone className="h-6 w-6 text-white" />
             </div>
             <div className="flex items-center space-x-1">
-              <span className="text-xl font-bold text-gray-900">FixMobile</span>
+              <span className="text-xl font-bold text-gray-900">MOBILE REPAIR XYZ</span>
               <Wrench className="h-4 w-4 text-blue-600" />
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    isActive(item.href)
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
+          <div className="hidden md:flex items-center space-x-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  isActive(item.href)
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+            {/* If Not Logged In */}
+            {!user && (
+              <>
+                <Link
+                  to="/login"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+
+            {/* If Logged In */}
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            )}
+
+            {/* Main CTA */}
             <Link
               to="/request"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200 transform hover:scale-105"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition duration-200 transform hover:scale-105"
             >
               Get Quick Repair
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Toggle */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Nav */}
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
@@ -84,20 +120,51 @@ const Navigation: React.FC = () => {
                 <Link
                   key={item.name}
                   to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
                   className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
                     isActive(item.href)
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`}
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+
+              {/* Auth buttons on mobile */}
+              {!user ? (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  >
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              )}
+
               <Link
                 to="/request"
-                className="block w-full mt-4 bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition-colors duration-200 text-center"
                 onClick={() => setIsMenuOpen(false)}
+                className="block w-full mt-4 bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-center"
               >
                 Get Quick Repair
               </Link>

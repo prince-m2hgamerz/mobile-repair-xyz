@@ -23,8 +23,8 @@ const Contact: React.FC = () => {
       icon: Mail,
       title: 'Email Support',
       description: 'Send us your queries anytime',
-      details: 'info@fixmobile.com',
-      action: 'mailto:info@fixmobile.com',
+      details: 'info@mobilerepairxyz.in',
+      action: 'mailto:info@mobilerepairxyz.in',
       available: 'Response within 2 hours'
     }
   ];
@@ -278,10 +278,10 @@ const Contact: React.FC = () => {
               href="tel:+1234567890"
               className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors duration-200"
             >
-              Call Now: +1 (234) 567-8900
+              Call Now: +91 9818322072
             </a>
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/9818322072"
               className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
             >
               WhatsApp Us

@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
                 <Smartphone className="h-6 w-6 text-white" />
               </div>
               <div className="flex items-center space-x-1">
-                <span className="text-xl font-bold">FixMobile</span>
+                <span className="text-xl font-bold">MOBILE REPAIR XYZ</span>
                 <Wrench className="h-4 w-4 text-blue-400" />
               </div>
             </div>
@@ -64,13 +64,13 @@ const Footer: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-blue-400" />
                 <a href="tel:+1234567890" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
-                  +1 (234) 567-8900
+                  +91 9818322072
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-blue-400" />
                 <a href="mailto:info@fixmobile.com" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
-                  info@fixmobile.com
+                  info@mobilerepairxyz.in
                 </a>
               </div>
               <div className="flex items-start space-x-2">
@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2025 FixMobile. All rights reserved.
+              Made By m2hgamerz © 2025 MobileRepairXYZ. All rights reserved.
             </p>
             <p className="text-gray-400 text-sm mt-2 md:mt-0">
               Professional mobile repair services at your doorstep
