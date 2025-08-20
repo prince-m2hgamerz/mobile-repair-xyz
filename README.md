@@ -84,5 +84,5 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 For inquiries or support, contact us:  
 
-- Phone: +91 12345 67890  
-- Email: support@mobilerepairxyz.com
+- Phone: +91 9818322072
+- Email: m2hgamerz.prince@gmail.com
