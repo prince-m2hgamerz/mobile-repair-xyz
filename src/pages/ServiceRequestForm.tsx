@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, CheckCircle, Phone, User, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '/home/prince-m2hgamerz/mobile-repair-xyz/src/pages/SupabaseClients.tsx'; // ✅ Add this import
 
+// Types
 interface FormData {
   customerName: string;
   mobileNumber: string;
@@ -33,97 +35,84 @@ const ServiceRequestForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  // Fetch current user (only if user is logged in using Supabase auth)
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data?.user);
+    };
+    fetchUser();
+  }, []);
 
   const timeSlots = [
-    '9:00 AM - 11:00 AM',
-    '11:00 AM - 1:00 PM', 
-    '1:00 PM - 3:00 PM',
-    '3:00 PM - 5:00 PM',
-    '5:00 PM - 7:00 PM',
-    '7:00 PM - 9:00 PM'
+    '9:00 AM - 11:00 AM', '11:00 AM - 1:00 PM',
+    '1:00 PM - 3:00 PM', '3:00 PM - 5:00 PM',
+    '5:00 PM - 7:00 PM', '7:00 PM - 9:00 PM'
   ];
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-
-    // Customer name validation
-    if (!formData.customerName.trim()) {
-      newErrors.customerName = 'Customer name is required';
-    } else if (formData.customerName.trim().length < 2) {
-      newErrors.customerName = 'Name must be at least 2 characters';
-    }
-
-    // Mobile number validation
-    const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
-    if (!formData.mobileNumber.trim()) {
-      newErrors.mobileNumber = 'Mobile number is required';
-    } else if (!phoneRegex.test(formData.mobileNumber.trim())) {
-      newErrors.mobileNumber = 'Please enter a valid mobile number';
-    }
-
-    // Phone model validation
-    if (!formData.phoneModel.trim()) {
-      newErrors.phoneModel = 'Phone model is required';
-    }
-
-    // Issue description validation
-    if (!formData.issueDescription.trim()) {
-      newErrors.issueDescription = 'Please describe the issue';
-    } else if (formData.issueDescription.trim().length < 10) {
-      newErrors.issueDescription = 'Please provide more details (at least 10 characters)';
-    }
-
-    // Address validation
-    if (!formData.address.trim()) {
-      newErrors.address = 'Complete address is required';
-    } else if (formData.address.trim().length < 10) {
-      newErrors.address = 'Please provide a complete address';
-    }
-
-    // Time slot validation
-    if (!formData.preferredTimeSlot) {
-      newErrors.preferredTimeSlot = 'Please select a preferred time slot';
-    }
-
+    if (!formData.customerName.trim()) newErrors.customerName = 'Customer name is required';
+    if (!formData.phoneModel.trim()) newErrors.phoneModel = 'Phone model is required';
+    if (!formData.issueDescription.trim()) newErrors.issueDescription = 'Issue description is required';
+    if (!formData.address.trim()) newErrors.address = 'Address is required';
+    if (!formData.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile number is required';
+    if (!formData.preferredTimeSlot) newErrors.preferredTimeSlot = 'Preferred time slot is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    
-    // Clear error when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: undefined
-      }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
-
-    // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Here you would typically send the data to your backend
-      console.log('Form submitted:', formData);
-      
+
+      // const { data, error } = await supabase
+      //   .from('repair_requests')
+      //   .insert({
+      //     user_id: user?.id || null,         // user_id if logged in
+      //     mobileNumber: formData.mobileNumber,
+      //     customerName: formData.customerName,
+      //     model: formData.phoneModel,       // your DB column may be 'model'
+      //     issueDescription: formData.issueDescription,
+      //     address: formData.address,
+      //     preferredTimeSlot: formData.preferredTimeSlot
+      //   });
+
+      const { data, error } = await supabase
+  .from('repair_requests')
+  .insert({
+    user_id: user?.id || null,
+    customername: formData.customerName,
+    mobilenumber: formData.mobileNumber,
+    model: formData.phoneModel,
+    issueDescription: formData.issueDescription,     // after column created
+    preferredTimeSlot: formData.preferredTimeSlot,   // after column created
+    address: formData.address
+  });
+
+      if (error) {
+        console.error('Supabase insert error:', error);
+        alert('Submission failed');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Inserted:', data);
       setIsSubmitted(true);
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    } catch (err) {
+      console.error('Unexpected error:', err);
     } finally {
       setIsSubmitting(false);
     }
