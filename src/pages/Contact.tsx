@@ -7,16 +7,16 @@ const Contact: React.FC = () => {
       icon: Phone,
       title: 'Call Us',
       description: 'Speak directly with our support team',
-      details: '+1 (234) 567-8900',
-      action: 'tel:+1234567890',
+      details: '+919818322072',
+      action: 'tel:+919818322072',
       available: '24/7 Support Available'
     },
     {
       icon: MessageCircle,
       title: 'WhatsApp',
       description: 'Quick support via WhatsApp',
-      details: '+1 (234) 567-8900',
-      action: 'https://wa.me/1234567890',
+      details: '+91 9818322072',
+      action: 'https://wa.me/9818322072',
       available: 'Instant Response'
     },
     {
@@ -188,14 +188,14 @@ const Contact: React.FC = () => {
               <div className="bg-gray-200 rounded-xl overflow-hidden" style={{ height: '500px' }}>
                 {/* Google Maps Embed - Replace with actual Google Maps embed code */}
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2895687731!2d-74.26055986835598!3d40.697670063849574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1635784031267!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.709839985344!2d77.24871677559061!3d28.54843997571076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce30073f13c0b%3A0x42e4507a3133ce2e!2smobile_repair_xyz!5e0!3m2!1sen!2sin!4v1755703298024!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="FixMobile Service Area"
+                  title="Mobile Repair XYZ"
                 ></iframe>
               </div>
               <div className="mt-6 p-6 bg-gray-50 rounded-lg">
