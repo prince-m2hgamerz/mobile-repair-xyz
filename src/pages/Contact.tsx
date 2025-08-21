@@ -275,7 +275,7 @@ const Contact: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:+1234567890"
+              href="tel:+919891176282"
               className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors duration-200"
             >
               Call Now: +91 9891176282
