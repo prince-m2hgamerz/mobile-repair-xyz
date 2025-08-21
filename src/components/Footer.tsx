@@ -63,13 +63,13 @@ const Footer: React.FC = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-blue-400" />
-                <a href="tel:+1234567890" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                <a href="tel:+919818322072" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
                   +91 9818322072
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-blue-400" />
-                <a href="mailto:info@fixmobile.com" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                <a href="mailto:info@mobilerepairxyz.in" className="text-gray-300 hover:text-blue-400 transition-colors duration-200">
                   info@mobilerepairxyz.in
                 </a>
               </div>
