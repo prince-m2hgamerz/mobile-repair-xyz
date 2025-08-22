@@ -8,20 +8,31 @@ const Navigation: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const location = useLocation();
 
-  // Get User session
+  // track auth
+  const [isAuthed, setIsAuthed] = useState(false);
   useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data?.user);
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        setIsAuthed(true);
+        setUser(data.user);
+      }
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setIsAuthed(!!s?.user);
+      setUser(s?.user ?? null);
+    });
+    return () => {
+      sub.subscription.unsubscribe();
     };
-    getUser();
   }, []);
 
+  // navigation array
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Book Repair', href: '/request' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
+    ...(isAuthed ? [{ name: 'Dashboard', href: '/dashboard' }] : []),
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -30,6 +41,7 @@ const Navigation: React.FC = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setIsAuthed(false);
     window.location.href = '/login';
   };
 
@@ -43,7 +55,9 @@ const Navigation: React.FC = () => {
               <Smartphone className="h-6 w-6 text-white" />
             </div>
             <div className="flex items-center space-x-1">
-              <span className="text-xl font-bold text-gray-900">MOBILE REPAIR XYZ</span>
+              <span className="text-xl font-bold text-gray-900">
+                MOBILE REPAIR XYZ
+              </span>
               <Wrench className="h-4 w-4 text-blue-600" />
             </div>
           </Link>
