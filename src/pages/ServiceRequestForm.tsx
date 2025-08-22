@@ -49,6 +49,10 @@ const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) =>
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [user, setUser] = useState<any>(null);
 
+  // Telegram Bot credentials
+  const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -65,7 +69,6 @@ const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) =>
     '5:00 PM - 7:00 PM',
     '7:00 PM - 9:00 PM'
   ];
-  
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -85,6 +88,36 @@ const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) =>
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Function to send form data to Telegram
+  const sendToTelegram = async (data: FormData) => {
+    const message = `
+📱 *New Mobile Repair Request*
+Name: ${data.customerName}
+Mobile: ${data.mobileNumber}
+Phone Model: ${data.phoneModel}
+Issue: ${data.issueDescription}
+Address: ${data.address}
+Repair Date: ${data.repairDate}
+Time Slot: ${data.preferredTimeSlot}
+Device Brand: ${preFilled?.brand || '-'}
+Device Model: ${preFilled?.model || '-'}
+Device Issue: ${preFilled?.issue || '-'}
+    `;
+    try {
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: 'Markdown'
+        }),
+      });
+    } catch (err) {
+      console.error('Telegram send error:', err);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -102,7 +135,6 @@ const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) =>
           address: formData.address,
           preferredTimeSlot: formData.preferredTimeSlot,
           repairDate: formData.repairDate,
-          // Wizard data
           deviceBrand: preFilled?.brand,
           deviceModel: preFilled?.model,
           deviceIssue: preFilled?.issue
@@ -113,6 +145,9 @@ const ServiceRequestForm: React.FC<ServiceRequestFormProps> = ({ preFilled }) =>
         alert('Submission failed');
         return;
       }
+
+      // Send to Telegram after successful insert
+      await sendToTelegram(formData);
 
       setIsSubmitted(true);
     } catch (err) {
