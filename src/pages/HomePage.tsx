@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { 
   Smartphone, 
   Home, 
@@ -280,6 +281,8 @@ const HomePage: React.FC = () => {
   <WhatsAppIcon />
   <span className="hidden md:inline-block font-semibold">Chat with us</span>
 </a>
+
+<SpeedInsights />
 
     </div>
   );
