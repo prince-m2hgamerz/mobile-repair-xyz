@@ -49,9 +49,9 @@ const AboutUs: React.FC = () => {
   ];
 
   const achievements = [
-    { icon: Users, number: '10,000+', label: 'Satisfied Customers' },
-    { icon: Wrench, number: '15,000+', label: 'Repairs Completed' },
-    { icon: Star, number: '4.9/5', label: 'Average Rating' },
+    { icon: Users, number: '100+', label: 'Satisfied Customers' },
+    { icon: Wrench, number: '100+', label: 'Repairs Completed' },
+    { icon: Star, number: '4.8/5', label: 'Average Rating' },
     { icon: TrendingUp, number: '98%', label: 'Success Rate' }
   ];
 
@@ -70,7 +70,7 @@ const AboutUs: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              About MobileRepairXYZ
+              About MOBILE REPAIR XYZ
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
               Your trusted partner for professional mobile repair services. 
@@ -95,7 +95,7 @@ const AboutUs: React.FC = () => {
               </h2>
               <div className="space-y-6 text-lg text-gray-600">
                 <p>
-                  Founded in 2025, MobileRepairXYZ started with a simple mission: to make mobile phone repairs 
+                  Founded in 2025, mobile_repair_xyz started with a simple mission: to make mobile phone repairs 
                   convenient, reliable, and accessible to everyone. We recognized the frustration of long 
                   queues, uncertain wait times, and the inconvenience of visiting repair shops.
                 </p>
@@ -105,8 +105,8 @@ const AboutUs: React.FC = () => {
                   traditional hassles of phone repairs while maintaining the highest quality standards.
                 </p>
                 <p>
-                  Today, we're proud to have served over 10,000 customers across major cities, 
-                  completing more than 15,000 repairs with an industry-leading 98% success rate 
+                  Today, we're proud to have served over 100 customers across major cities, 
+                  completing more than 125 repairs with an industry-leading 98% success rate 
                   and 4.9/5 customer satisfaction rating.
                 </p>
               </div>

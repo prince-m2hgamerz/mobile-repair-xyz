@@ -68,9 +68,9 @@ const HomePage: React.FC = () => {
   ];
 
   const stats = [
-    { number: '10,000+', label: 'Repairs Completed' },
+    { number: '100+', label: 'Repairs Completed' },
     { number: '4.9/5', label: 'Customer Rating' },
-    { number: '30 Min', label: 'Average Repair Time' },
+    { number: '90 Min', label: 'Average Repair Time' },
     { number: '90 Days', label: 'Warranty Period' }
   ];
 

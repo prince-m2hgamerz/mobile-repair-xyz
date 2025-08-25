@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../pages/SupabaseClients';
-import { Menu, X, Smartphone, Wrench } from 'lucide-react';
+import { Menu, X, Smartphone, Wrench, ChevronDown } from 'lucide-react';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPolicyOpen, setIsPolicyOpen] = useState(false); // policy dropdown
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false); // dashboard dropdown
   const [user, setUser] = useState<any>(null);
   const location = useLocation();
 
@@ -26,18 +28,24 @@ const Navigation: React.FC = () => {
     };
   }, []);
 
-  // navigation array
+  // main navigation
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Book Repair', href: '/request' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
-    ...(isAuthed ? [{ name: 'Dashboard', href: '/dashboard' }] : []),
+  ];
+
+  // policy links
+  const policyLinks = [
+    { name: 'Terms & Conditions', href: '/terms' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Refund Policy', href: '/refund' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
-  // handle logout
+  // logout
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -78,8 +86,33 @@ const Navigation: React.FC = () => {
               </Link>
             ))}
 
-            {/* If Not Logged In */}
-            {!user && (
+            {/* Dropdown for Policy Pages */}
+            <div className="relative">
+              <button
+                onClick={() => setIsPolicyOpen(!isPolicyOpen)}
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                Policies
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              {isPolicyOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border">
+                  {policyLinks.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsPolicyOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Auth Section */}
+            {!user ? (
               <>
                 <Link
                   to="/login"
@@ -94,25 +127,47 @@ const Navigation: React.FC = () => {
                   Register
                 </Link>
               </>
+            ) : (
+              <div className="relative">
+                <button
+                  onClick={() => setIsDashboardOpen(!isDashboardOpen)}
+                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Dashboard
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+                {isDashboardOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md border">
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setIsDashboardOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      My Dashboard
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
 
-            {/* If Logged In */}
-            {user && (
-              <button
-                onClick={handleLogout}
-                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            )}
-
-            {/* Main CTA */}
+            {/* CTA */}
             <Link
-              to="/request"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition duration-200 transform hover:scale-105"
-            >
-              Get Quick Repair
-            </Link>
+  to="/request"
+  className="block w-full md:w-auto md:inline-block text-center mt-3 md:mt-0 
+             bg-blue-600 text-white px-4 py-2 md:px-3 md:py-1.5 
+             rounded-lg text-sm md:text-xs font-medium 
+             hover:bg-blue-700 transition duration-200 transform hover:scale-105 md:ml-4"
+>
+  Get Quick Repair
+</Link>
+
+
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -135,7 +190,7 @@ const Navigation: React.FC = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive(item.href)
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
@@ -145,7 +200,24 @@ const Navigation: React.FC = () => {
                 </Link>
               ))}
 
-              {/* Auth buttons on mobile */}
+              {/* Policies Dropdown (Mobile inline) */}
+              <div className="border-t mt-2 pt-2">
+                <span className="block px-3 py-2 text-gray-500 text-sm font-semibold">
+                  Policies
+                </span>
+                {policyLinks.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-5 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Auth Buttons Mobile */}
               {!user ? (
                 <>
                   <Link
@@ -164,24 +236,37 @@ const Navigation: React.FC = () => {
                   </Link>
                 </>
               ) : (
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
-                >
-                  Logout
-                </button>
+                <div className="border-t mt-2 pt-2">
+                  <span className="block px-3 py-2 text-gray-500 text-sm font-semibold">
+                    Account
+                  </span>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-5 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100"
+                  >
+                    My Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="block w-full text-left px-5 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
               )}
 
-              <Link
-                to="/request"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full mt-4 bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-center"
-              >
-                Get Quick Repair
-              </Link>
+<Link
+  to="/request"
+  onClick={() => setIsMenuOpen(false)}
+  className="block w-full md:w-auto md:inline-block mt-4 md:mt-0 bg-blue-600 text-white px-4 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-center md:ml-4"
+>
+  Get Quick Repairm
+</Link>
+
             </div>
           </div>
         )}

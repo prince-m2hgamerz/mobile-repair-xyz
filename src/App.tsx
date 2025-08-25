@@ -17,6 +17,11 @@ import History from './pages/dashboard/History';
 import Profile from './pages/dashboard/Profile';
 import BookingWizard from './pages/BookingWizard';
 
+// ✅ Newly added policy pages
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RefundCancellation from './pages/RefundCancellation';
+
 function App() {
   return (
     <Router>
@@ -27,6 +32,11 @@ function App() {
             {/* Public auth */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            {/* Public Policy Pages (no auth required) */}
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/refund" element={<RefundCancellation />} />
 
             {/* Protected Pages */}
             <Route
